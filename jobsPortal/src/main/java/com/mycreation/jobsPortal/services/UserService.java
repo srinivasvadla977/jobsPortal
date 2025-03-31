@@ -21,4 +21,9 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<User> authenticateUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.filter(u -> u.getPassword().equals(password));
+    }
+
 }
