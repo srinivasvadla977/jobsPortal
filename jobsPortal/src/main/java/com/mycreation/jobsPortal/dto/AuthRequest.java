@@ -1,9 +1,12 @@
 package com.mycreation.jobsPortal.dto;
 
+import com.mycreation.jobsPortal.model.Role;
+
 public class AuthRequest {
 
     private String email;
     private String password;
+    private Role role;
 
     public String getEmail() {
         return email;
@@ -19,5 +22,13 @@ public class AuthRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

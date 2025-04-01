@@ -1,7 +1,11 @@
 package com.mycreation.jobsPortal.rest_controllers;
 
 import com.mycreation.jobsPortal.model.Job;
+import com.mycreation.jobsPortal.model.Role;
+import com.mycreation.jobsPortal.model.User;
+import com.mycreation.jobsPortal.repositories.UserRepository;
 import com.mycreation.jobsPortal.services.JobService;
+import com.mycreation.jobsPortal.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +19,22 @@ public class JobController {
     @Autowired
     JobService service;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
+    @Autowired
+    UserRepository userRepository;
+
     @PostMapping("/post")
-    public ResponseEntity<Job> postJob(@RequestBody Job job){
-        return ResponseEntity.ok(service.postJob(job));
+    public ResponseEntity<Job> postJob(@RequestBody Job job, @RequestHeader("Authorization") String token){
+        String email=jwtUtil.extractEmail(token.replace("Bearer ", ""));
+        User user = userRepository.findByEmail(email).orElseThrow();
+
+        //only users with the EMPLOYER role can post jobs.
+        if (user.getRole() != Role.EMPLOYER) {
+            return ResponseEntity.status(403).body(null); // Forbidden
+        }else{
+        return ResponseEntity.ok(service.postJob(job));}
     }
 
     @GetMapping
