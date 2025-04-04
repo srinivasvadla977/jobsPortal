@@ -7,6 +7,9 @@ import com.mycreation.jobsPortal.repositories.UserRepository;
 import com.mycreation.jobsPortal.services.JobService;
 import com.mycreation.jobsPortal.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +41,9 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> getAllJobs(){
-        return ResponseEntity.ok(service.getAllJobs());
+    public ResponseEntity<Page<Job>> getAllJobs(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Pageable pageable= PageRequest.of(page,size);
+        return ResponseEntity.ok(service.getAllJobs(pageable));
     }
 
     @GetMapping("/{id}")

@@ -3,8 +3,10 @@ package com.mycreation.jobsPortal.services;
 import com.mycreation.jobsPortal.model.Job;
 import com.mycreation.jobsPortal.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +20,8 @@ public class JobService {
        return jobRepository.save(job);
     }
 
-    public List<Job> getAllJobs(){
-        return jobRepository.findAll();
+    public Page<Job> getAllJobs(Pageable pageable){
+        return jobRepository.findAll(pageable);
     }
 
     public Optional<Job> findJobById(Long id){

@@ -9,6 +9,9 @@ import com.mycreation.jobsPortal.repositories.UserRepository;
 import com.mycreation.jobsPortal.services.JobApplicationService;
 import com.mycreation.jobsPortal.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +32,21 @@ public class JobApplicationController {
     UserRepository userRepository;
 
 
-    @GetMapping("/user/{id}")
-    public List<JobApplication> getUserApplications(@PathVariable("id") Long user_id){
-        return jobApplicationService.getApplicationsByUser(user_id);
+    @GetMapping("/user")
+    public ResponseEntity<Page<JobApplication>> getUserApplications(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size,@RequestHeader("Authorization") String token ){
+        String email=jwtUtil.extractEmail(token.replace("Bearer ", ""));
+        User user = userRepository.findByEmail(email).orElseThrow();
+
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(jobApplicationService.getApplicationsByUser(user.getId(),pageable));
     }
 
     @GetMapping("/job/{id}")
-    public List<JobApplication> getJobApplications(@PathVariable("id") Long job_id){
-        return jobApplicationService.getApplicationsByJob(job_id);
+    public ResponseEntity<Page<JobApplication>> getJobApplications(@PathVariable("id") Long job_id, @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(jobApplicationService.getApplicationsByJob(job_id,pageable));
     }
 
     //using request body of DTO

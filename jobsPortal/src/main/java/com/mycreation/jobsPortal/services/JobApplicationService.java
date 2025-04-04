@@ -8,8 +8,10 @@ import com.mycreation.jobsPortal.repositories.ApplicationRepository;
 import com.mycreation.jobsPortal.repositories.JobRepository;
 import com.mycreation.jobsPortal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -32,12 +34,12 @@ public class JobApplicationService {
        return applicationrepository.save(new JobApplication(user,job,coverLetter, ApplicationStatus.PENDING));
     }
 
-    public List<JobApplication> getApplicationsByUser(Long user_id){
-        return applicationrepository.findByUserId(user_id);
+    public Page<JobApplication> getApplicationsByUser(Long user_id, Pageable pageable){
+        return applicationrepository.findByUserId(user_id, pageable);
     }
 
-    public List<JobApplication> getApplicationsByJob(Long job_id){
-        return applicationrepository.findByJobId(job_id);
+    public Page<JobApplication> getApplicationsByJob(Long job_id, Pageable pageable){
+        return applicationrepository.findByJobId(job_id, pageable);
     }
 
     public JobApplication updateApplicationStatus(Long applicationId, ApplicationStatus status){

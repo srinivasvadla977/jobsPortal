@@ -1,20 +1,12 @@
 package com.mycreation.jobsPortal.dto;
 
 public class JobApplicationRequest {
-   // private Long userId;
+
     private Long jobId;
     private String coverLetter;
 
     public JobApplicationRequest() {
     }
-
-   /* public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }*/
 
     public Long getJobId() {
         return jobId;
