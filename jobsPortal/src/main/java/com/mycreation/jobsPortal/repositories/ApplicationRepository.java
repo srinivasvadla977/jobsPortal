@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository <JobApplication,Long> {
 
+    // using normal list
     /*List<JobApplication> findByUserId(Long user_id);
     List<JobApplication> findByJobId(Long job_id);*/
 
@@ -22,6 +23,7 @@ public interface ApplicationRepository extends JpaRepository <JobApplication,Lon
     /*@Query("SELECT ja FROM JobApplication ja JOIN FETCH ja.user WHERE ja.job.id = :jobId")
     List<JobApplication> findApplicationsByJobId(@Param("jobId") Long jobId);*/
 
+    // using pagination
     Page<JobApplication> findByUserId(Long userId, Pageable pageable);
     Page<JobApplication> findByJobId(Long jobId, Pageable pageable);
 

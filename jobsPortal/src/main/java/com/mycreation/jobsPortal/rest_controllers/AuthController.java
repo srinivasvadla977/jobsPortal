@@ -5,6 +5,7 @@ import com.mycreation.jobsPortal.dto.AuthResponse;
 import com.mycreation.jobsPortal.model.User;
 import com.mycreation.jobsPortal.services.UserService;
 import com.mycreation.jobsPortal.utils.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ UserService userService;
 JwtUtil jwtUtil;
 
     @PostMapping("/login")
+    @Operation(summary = "Public end point for a user to login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         Optional<User> user = userService.authenticateUser(request.getEmail(), request.getPassword());
 

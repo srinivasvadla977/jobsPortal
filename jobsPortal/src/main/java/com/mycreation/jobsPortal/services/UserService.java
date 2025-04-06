@@ -14,8 +14,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     public User registerUser(User user){
-        user.setPassword(user.getPassword());
+        String encodedPassword= passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
        return userRepository.save(user);
     }
 
@@ -25,7 +29,8 @@ public class UserService {
 
     public Optional<User> authenticateUser(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
-        return user.filter(u -> u.getPassword().equals(password));
+       // return user.filter(u -> u.getPassword().equals(password));
+        return user.filter(u -> passwordEncoder.matches(password,u.getPassword()));
     }
 
 }
