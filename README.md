@@ -37,6 +37,7 @@ A full-featured Job Portal backend built with **Spring Boot**, **JWT Authenticat
 The app is deployed live using Render's free tier.
 
 **Live URL with Swagger UI:** [https://jobsportal-1-rocy.onrender.com/swagger-ui/index.html)  
+**Note**: The live demo may take a few seconds to load initially as the server goes into sleep mode during inactivity (Render free tier limitation).
 
 ---
 
